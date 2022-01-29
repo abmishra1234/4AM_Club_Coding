@@ -19,6 +19,8 @@
 //========================
 */
 
+#define FORREF
+#ifndef FORREF
 using namespace std;
 #include<iostream>
 
@@ -35,7 +37,7 @@ struct Solution
 				return first(arr, mid + 1, right, target, arrSize);
 			}
 			else
-				return first(arr, left, mid-1, target, arrSize);
+				return first(arr, left, mid - 1, target, arrSize);
 		}
 		return -1;
 	}
@@ -71,3 +73,4 @@ int main()
 
 	return 0;
 }
+#endif // FORREF
