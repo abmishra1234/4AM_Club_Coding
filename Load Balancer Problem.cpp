@@ -18,6 +18,8 @@
 	}
 */
 
+#define FORREF
+#ifndef FORREF
 using namespace std;
 #include<iostream>
 #include<algorithm>
@@ -34,7 +36,7 @@ int main()
 	int arr[] = { 16, 17, 15, 0, 20, 1, 1, 2 };
 	int arrSize = sizeof(arr) / sizeof(int);
 	int load = accumulate(arr, arr + arrSize, 0);
-	
+
 	if (load % arrSize)
 		return -1;
 
@@ -55,3 +57,5 @@ int main()
 	cout << max_load << endl;
 	return 0;
 }
+
+#endif // FORREF
