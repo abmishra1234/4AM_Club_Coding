@@ -37,7 +37,7 @@ struct Multiplication
 };
 
 int main() {
-	int a = 0, b = 5;
+	int a = -3, b = 5;
 	Multiplication mul;
 	cout << "answer = " << mul.recAddition(a, b) << endl;
 
