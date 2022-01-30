@@ -1,6 +1,6 @@
 /*
 	This is the sample code for Bloom Filter.
-	It is not fully tested and consider code only for basic understanding.
+	It is not fully tested so please consider code only for basic understanding for the explained concept.
 */
 
 #define FORREF
@@ -14,10 +14,10 @@ using namespace std;
 
 
 /*
-	Please note here that as you make unique entry in your bloom filter array, it will give you less duplicate entry.
+	Please note here that number of hash function and bit array size will help you less duplicate entry.
 	but it may impact your performance. So Architect has to take some decision based on their current context.
 
-	for demonstration of concept , I have created some hash method but for actual production code it is better to use
+	for demonstration of concept , took some example hash method but for actual production code it is better to use
 	some standard hash for ex: MD5 etc...
 */
 
