@@ -12,6 +12,15 @@ using namespace std;
 
 #define ll long long
 
+
+/*
+	Please note here that as you make unique entry in your bloom filter array, it will give you less duplicate entry.
+	but it may impact your performance. So Architect has to take some decision based on their current context.
+
+	for demonstration of concept , I have created some hash method but for actual production code it is better to use
+	some standard hash for ex: MD5 etc...
+*/
+
 // hash 1
 int h1(string s, int arrSize)
 {
@@ -68,8 +77,7 @@ bool lookup(bool* bitarray, int arrSize, string s)
 	int c = h3(s, arrSize);
 	int d = h4(s, arrSize);
 
-	if (bitarray[a] && bitarray[b] && bitarray
-		&& bitarray[d])
+	if (bitarray[a] && bitarray[b] && bitarray[c] && bitarray[d])
 		return true;
 	else
 		return false;
@@ -83,11 +91,13 @@ void insert(bool* bitarray, int arrSize, string s)
 		cout << s << " is Probably already present" << endl;
 	else
 	{
+		// you are creating the hash value for bitarray index to be set
 		int a = h1(s, arrSize);
 		int b = h2(s, arrSize);
 		int c = h3(s, arrSize);
 		int d = h4(s, arrSize);
 
+		// you are setting the bit below
 		bitarray[a] = true;
 		bitarray[b] = true;
 		bitarray[c] = true;
@@ -100,30 +110,29 @@ void insert(bool* bitarray, int arrSize, string s)
 // Driver Code
 int main()
 {
-	bool bitarray[100] = { false };
-	int arrSize = 100;
-	string sarray[33]
-		= { "abound", "abounds",	 "abundance",
-			"abundant", "accessible", "bloom",
+	bool bitarray[256] = { false };
+	int arrSize = 256;
+	string sarray[30]
+		= { "delhi", "bengaluru",	 "abinash",
+			"purpose", "bloom", "filter",
 			"blossom", "bolster",	 "bonny",
 			"bonus", "bonuses",	 "coherent",
 			"cohesive", "colorful",	 "comely",
-			"comfort", "gems",		 "generosity",
+			"comfort", "bluff",		 "generosity",
 			"generous", "generously", "genial",
 			"bluff", "cheater",	 "hate",
 			"war",	 "humanity",	 "racism",
-			"hurt",	 "nuke",		 "gloomy",
-			"facebook", "geeksforgeeks", "twitter" };
-	for (int i = 0; i < 33; i++) {
+			"hurt",	 "nuke", "gloomy"};
+	for (int i = 0; i < 30; i++) {
 		insert(bitarray, arrSize, sarray[i]);
 	}
 
 	// now lookup call please
-	cout << lookup(bitarray, 100, "bluffi") << endl;
-	cout << lookup(bitarray, 100, "bluff") << endl;
+	cout << lookup(bitarray, 256, "delhi") << endl;
+	cout << lookup(bitarray, 256, "bluff") << endl;
 
-	cout << lookup(bitarray, 100, "bonus") << endl;
-	cout << lookup(bitarray, 100, "date") << endl;
+	cout << lookup(bitarray, 256, "Madras") << endl;
+	cout << lookup(bitarray, 256, "date") << endl;
 
 	return 0;
 }
