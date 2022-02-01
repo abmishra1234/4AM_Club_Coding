@@ -54,6 +54,11 @@ struct MergeSort {
 		}
 	}
 
+	~MergeSort() {
+		delete[]tarr;
+		tarr = nullptr;
+	}
+
 };
 
 int main() {
