@@ -16,7 +16,6 @@ using namespace std;
 #include <string>
 #include <vector>
 
-
 struct Digit2String {
 
 	string s[10] = { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
