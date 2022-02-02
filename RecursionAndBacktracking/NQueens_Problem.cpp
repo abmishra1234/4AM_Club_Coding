@@ -27,15 +27,15 @@ struct NQueenProblem {
 
 	bool isSafe(int board[][10], int ir, int ic, int nQueen) {
 		// check the horizontal classhes
-
+		
 		// up vertical
-		for (int i = ir - 1; i >= 0; --i) {
+		for (int i = ir-1; i >= 0; --i) {
 			if (board[i][ic])
 				return false;
 		}
 
 		// down vertical
-		for (int i = ir + 1; i < nQueen; ++i) {
+		for (int i = ir+1; i<nQueen; ++i) {
 			if (board[i][ic])
 				return false;
 		}
@@ -54,8 +54,8 @@ struct NQueenProblem {
 
 		//Left Diagonal
 		// up
-		int x = ir - 1;
-		int y = ic - 1;
+		int x = ir-1;
+		int y = ic-1;
 		while (x >= 0 && y >= 0) {
 			if (board[x][y] == 1)
 				return false;
@@ -74,8 +74,8 @@ struct NQueenProblem {
 
 		//Right Diagonal
 		// up
-		x = ir - 1;
-		y = ic + 1;
+		x = ir-1;
+		y = ic+1;
 		while (x >= 0 && y < nQueen) {
 			if (board[x][y] == 1)
 				return false;
@@ -98,15 +98,15 @@ struct NQueenProblem {
 
 	bool solveQueen(int board[][10], int col, int nQueen) {
 		/*
-			Now the first thing you have to do here is
+			Now the first thing you have to do here is 
 			place the nQueen on the board, and if all the nQueen
-			is already placed , meaning if you are able to place
+			is already placed , meaning if you are able to place 
 			all the nQueen on board, that is the state you should terminate with
 			"success" from the recursion. So this is your base or terminating condition
 		*/
 		if (col == nQueen) {
 			cout << "Yes, the all nQueen is already placed at board, see below the position!!" << endl;
-
+			
 			// so for verification , printing the board state will be important
 			// i am considering the 
 			for (int i = 0; i < nQueen; ++i) {
