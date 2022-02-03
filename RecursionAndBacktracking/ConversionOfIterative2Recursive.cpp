@@ -4,7 +4,6 @@
 
     We will see the otherwise conversion in next example
 */
-
 #define FORREF
 #ifndef FORREF
 using namespace std;
