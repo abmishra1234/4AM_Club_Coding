@@ -6,9 +6,8 @@ using namespace std;
 #ifndef FORREF
 
 struct Factorial {
-
+	// Better is to write this code iterative but written recursive to just demonstratr the recursion
 	double doFactorial(int n) {
-
 		// base or terminiting condition
 		if (n == 0 || n == 1)
 			return 1;
