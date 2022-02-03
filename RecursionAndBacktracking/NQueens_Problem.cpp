@@ -25,6 +25,9 @@ using namespace std;
 
 struct NQueenProblem {
 
+	/*
+		I think below logic not implemented in bestway. Let's restructure this code later	
+	*/
 	bool isSafe(int board[][10], int ir, int ic, int nQueen) {
 		// check the horizontal classhes
 		
