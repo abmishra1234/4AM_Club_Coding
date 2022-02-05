@@ -1,0 +1,12 @@
+Hi All
+This Directory is created for discussing the design pattern, specially from Gang of Four(GOF)
+
+In my opinion, DP is tool for senior engineer to write their code with better structure.
+
+Most of the time, these code structure is helping you to write your code which is
+better maintainable, extendable, exchanging communicable standards. 
+
+@Note: Design patterns are never to make your code complex, which I commonly see the myth going around
+
+Thank You,
+Abinash Mishra
