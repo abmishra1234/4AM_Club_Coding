@@ -61,31 +61,27 @@ struct Knapsack {
 	}
 
 	/*
-		The below  code is for dp with memoization
+		Top-down Dynamic Programming with Memoization
 	*/
 	int Knapsack_Memo(const vector<int>& profits, const vector<int>& weights,
 		const int capacity, size_t ind, int accuWeight, vector<vector<int>>&memo) {
 		if (ind >= profits.size()) {
 			return 0;
 		}
-		else
-		{
-			if (memo[ind][capacity - accuWeight] != -1) {
-				return memo[ind][capacity - accuWeight];
-			}
-			else
-			{
-				int profit1 = 0, profit2 = 0;
-				if (accuWeight + weights[ind] <= capacity) {
-					profit1 = profits[ind] + Knapsack_Memo(profits, weights, capacity,
-						ind + 1, accuWeight + weights[ind], memo);
-				}
 
-				profit2 = Knapsack_Memo(profits, weights, capacity, ind + 1, accuWeight, memo);
-				memo[ind][capacity - accuWeight] = max(profit1, profit2);
-			}
+		if (memo[ind][capacity - accuWeight] != -1) {
 			return memo[ind][capacity - accuWeight];
 		}
+
+		int profit1 = 0, profit2 = 0;
+		if (accuWeight + weights[ind] <= capacity) {
+			profit1 = profits[ind] + Knapsack_Memo(profits, weights, capacity,
+				ind + 1, accuWeight + weights[ind], memo);
+		}
+
+		profit2 = Knapsack_Memo(profits, weights, capacity, ind + 1, accuWeight, memo);
+		memo[ind][capacity - accuWeight] = max(profit1, profit2);
+		return memo[ind][capacity - accuWeight];
 	}
 
 
