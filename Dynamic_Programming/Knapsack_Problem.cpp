@@ -1,14 +1,14 @@
-/*
+ï»¿/*
 	0/1 Knapsack
 	Introduction
-	Given the weights and profits of ‘N’ items, we are asked 
-	to put these items in a knapsack that has a capacity ‘C’. 
+	Given the weights and profits of â€˜Nâ€™ items, we are asked 
+	to put these items in a knapsack that has a capacity â€˜Câ€™. 
 	The goal is to get the maximum profit from the items in the knapsack.
 
 	So, there are constraint of, Each item can only be selected once, 
-	as we don’t have multiple quantities of any item.
+	as we donâ€™t have multiple quantities of any item.
 
-	Let’s take Merry’s example, who wants to carry some fruits in the 
+	Letâ€™s take Merryâ€™s example, who wants to carry some fruits in the 
 	knapsack to get maximum profit.Here are the weights and 
 	profits of the fruits:
 
@@ -35,6 +35,8 @@ using namespace std;
 #include<vector>
 
 struct Knapsack {
+	typedef vector<vector<int>> Memo;
+
 	/*
 		Approach 01 :  Brute Force Approach
 		Time Complexity : O(2^n) // where n is the number of item to be picked
@@ -62,6 +64,16 @@ struct Knapsack {
 
 	/*
 		Top-down Dynamic Programming with Memoization
+		What is the time and space complexity of the below solution?
+
+		Since our memoization array dp[profits.length][capacity+1] 
+		stores the results for all the subproblems, we can conclude 
+		that we will not have more than N*C subproblems 
+		(where â€˜Nâ€™ is the number of items and â€˜Câ€™ is the knapsack capacity).
+
+		That means our time complexity is not more than O(N*C)
+
+		And same goes for the space also , it's order is not more than O(N*C)
 	*/
 	int Knapsack_Memo(const vector<int>& profits, const vector<int>& weights,
 		const int capacity, size_t ind, int accuWeight, vector<vector<int>>&memo) {
@@ -84,11 +96,58 @@ struct Knapsack {
 		return memo[ind][capacity - accuWeight];
 	}
 
+	/*
+		Bottom-up Dynamic Programming or Tabulizaton Approach
+		
+		Letâ€™s try to populate our dp[][] array working in a bottom-up fashion.
+
+		Essentially we want to find the maximum profit, for every sub array and for every possible capacity.
+
+		This means, dp[i][c] will represent the maximum knapsack profit for capacity c, calculated from the 
+		first i items. 
+
+		Now, let's focus , what are the possibilities for the i'th item and "c" capacity.
+		so, in general there are two possibilities here, one is to pick the element and another is to discard the element
+		(so, yes only two case with item). And so the maximum out of these two steps will be included into the solution step.
+
+		So, dp[i][c] = max of { profit[i] + dp[i-1][c-wi], dp[i-1][c] } // first is to add the ith item and 2nd is for ignore 
+		So, you reach at your dp relationship and now you need to populate your dp table using this formula.
+			
+	*/
+
+	int Knapsack_Tabu(const vector<int>& profits, const vector<int>& weights,
+		const size_t capacity) {
+		int size = profits.size();
+		Memo memo(size, vector<int>(capacity + 1, -1));
+
+		for (int i = 0; i < size; ++i) {
+			memo[i][0] = 0;
+		}
+
+		for (int i = 0; i < size; ++i) {
+			memo[i][1] = 1;
+		}
+
+		for (int i = 1; i <= capacity; ++i) {
+			memo[0][i] = profits[0];
+		}
+
+		for (int i = 1; i < size; ++i) {
+			for (int j = 1; j <= capacity; ++j) {
+				int profit1 = memo[i - 1][j];
+				int profit2 = (weights[i] <= j) ? (profits[i] + memo[i - 1][j - weights[i]]) : 0;
+				memo[i][j] = max(profit1, profit2);
+			}
+		}
+
+		return memo[size - 1][capacity];
+	}
 
 	int solveKnapsack(const vector<int>& profits, const vector<int>& weights, int capacity) {
 		// This below line code is for dynamic two dimensional array
-		vector<vector<int>> memo(profits.size(), vector<int>(capacity + 1, -1));
-		return Knapsack_Memo(profits, weights, capacity,0, 0, memo);
+		Memo memo(profits.size(), vector<int>(capacity + 1, -1));
+		//return Knapsack_Memo(profits, weights, capacity,0, 0, memo);
+		return Knapsack_Tabu(profits, weights, capacity);
 	}
 };
 
@@ -103,6 +162,3 @@ int main(int argc, char* argv[]) {
 }
 
 #endif // FORREF
-
-
-
