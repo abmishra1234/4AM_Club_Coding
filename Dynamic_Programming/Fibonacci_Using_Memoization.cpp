@@ -15,27 +15,29 @@
 
 	So, let's implement this through memoization
 */
-#define FORREF
+//#define FORREF
 #ifndef FORREF
 using namespace std;
 #include<iostream>
+#include<vector>
 
 #define llint long long int 
+typedef vector<int> Vect;
 
 struct Fibonacci {
-	llint dp[100] = {0};
+
 	/*
 		Top-down approach
 		This is called recursive and memoization in dp
 	*/
-	llint calcFibonacci_rec(llint n) {
+	llint calcFibonacci_rec(llint n, Vect &memo) {
 		if (n <= 1)
 			return n;
-		else if (dp[n] != 0)
-			return dp[n];
+		else if (memo[n] != -1)
+			return memo[n];
 		else {
-			dp[n] = (calcFibonacci_rec(n - 1) + calcFibonacci_rec(n - 2));
-			return dp[n];
+			memo[n] = (calcFibonacci_rec(n - 1, memo) + calcFibonacci_rec(n - 2, memo));
+			return memo[n];
 		}
 	}
 
@@ -45,25 +47,26 @@ struct Fibonacci {
 		here, you have to solve the sub problem first and their after by adding up 
 		of these small problem's solution to find the solution of big problem.
 	*/
-	llint calcFibonacci_iter(llint n) {
-		dp[0] = 0;
-		dp[1] = 1;
+
+	llint calcFibonacci_iter(llint n, Vect &memo) {
+		memo[0] = 0;
+		memo[1] = 1;
 		for (int i = 2; i <= n; ++i) {
-			dp[i] = dp[i - 1] + dp[i - 2];
+			memo[i] = memo[i - 1] + memo[i - 2];
 		}
-		return dp[n];
+		return memo[n];
 	}
 };
 
 int main(int argc, char* argv[]) {
 	Fibonacci* fib = new Fibonacci();
-	cout << "5th Fibonacci is ---> " << fib->calcFibonacci_iter(5) << endl;
-	cout << "6th Fibonacci is ---> " << fib->calcFibonacci_iter(6) << endl;
-	cout << "40th Fibonacci is ---> " << fib->calcFibonacci_iter(40) << endl;
+	int n = 11;
+	Vect  memo(n + 1, -1);
+	cout << "5th Fibonacci is ---> " << fib->calcFibonacci_rec(5, memo) << endl;
+	cout << "6th Fibonacci is ---> " << fib->calcFibonacci_rec(6, memo) << endl;
+	cout << "40th Fibonacci is ---> " << fib->calcFibonacci_rec(11, memo) << endl;
 
 	delete fib;
 }
-
-
 #endif // FORREF
 

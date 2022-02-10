@@ -28,7 +28,7 @@
 
 */
 
-//#define FORREF
+#define FORREF
 #ifndef FORREF
 using namespace std;
 #include<iostream>
