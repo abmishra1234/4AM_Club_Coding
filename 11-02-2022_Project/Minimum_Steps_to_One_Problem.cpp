@@ -1,10 +1,10 @@
 /*
-
-
+	My Contact :  abmishra1234@gmail.com
 */
 
 #define APP01
-//#define FORREF
+#define APP02
+#define FORREF
 #ifndef FORREF
 
 using namespace std;
@@ -65,25 +65,37 @@ struct Count {
 		return memo[n];
 	}
 
+	// Solution using Tabulization
+	int minStep_Tabu(int n, Memo& memo) {
+		memo[0] = 0;
+		memo[1] = 0;
 
+		for (int i = 2; i <= n; ++i) {
+			memo[i] = 1 + memo[i - 1];
+			if (i % 2 == 0) {
+				memo[i] = min(memo[i], 1 + memo[i / 2]);
+			}
+			if (i % 3 == 0) {
+				memo[i] = min(memo[i], 1 + memo[i / 3]);
+			}
+		}
+		return memo[n];
+	}
 };
-
-
-
-
 
 
 int main() {
 
-	int n = 10;
+	int n = 42;
 	Count ct;
 #ifndef APP01
 	cout << ct.minStep_brute(n);
 #endif // APP01
 	Memo memo(n + 1, -1);
+#ifndef APP02
 	cout << ct.minStep_Memo(n, memo);
-
+#endif // APP02
+	cout << ct.minStep_Tabu(n, memo);
 }
-
 
 #endif // FORR
