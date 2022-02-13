@@ -5,7 +5,7 @@
 
 #define APP01 // for brute
 #define APP02 // for memo
-//#define FORREF
+#define FORREF
 #ifndef FORREF
 using namespace std;
 #include<iostream>
