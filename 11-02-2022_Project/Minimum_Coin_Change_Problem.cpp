@@ -4,7 +4,7 @@
 */
 
 #define APP01 // for brute
-//#define APP02 // for memo
+#define APP02 // for memo
 //#define FORREF
 #ifndef FORREF
 using namespace std;
@@ -68,12 +68,32 @@ struct CoinChange {
 
 		return min_coin_count;
 	}
+
+	int minCoins_Tabu(vector<int> coins, int sum) {
+		Memo memo(sum + 1, INT_MAX);
+		memo[0] = 0;
+
+		// vector<int> coins = { 1,2,3,4,5 };
+		for (size_t i = 0; i < coins.size(); ++i) {
+			memo[coins[i]] = 1;
+		}
+
+		for (int isum = 1; isum <= sum; ++isum) {
+			for (size_t i = 0; i < coins.size(); ++i) {
+				if (coins[i] <= isum) {
+					memo[isum] = min(memo[isum], 1 + memo[isum- coins[i]]);
+				}
+			}
+		}
+
+		return memo[sum] == INT_MAX ? -1 : memo[sum];
+	}
 };
 
 // Driver code
 int main() {
 	vector<int> coins = { 1,2,3,4,5 };
-	int sum = 24;
+	int sum = 50;
 	CoinChange cc;
 #ifndef APP01
 	cout << cc.minCoins_brut(coins, sum);
@@ -83,6 +103,8 @@ int main() {
 	Memo memo(sum + 1, -1); 
 	cout << cc.minCoins_Memo(coins, sum, memo);
 #endif // APP02
+	cout << cc.minCoins_Tabu(coins, sum) << endl;
+
 }
 
 #endif // FORREF
