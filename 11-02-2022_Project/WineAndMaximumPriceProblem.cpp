@@ -41,12 +41,18 @@ using namespace std;
 #include<iostream>
 #include<vector>
 
+/* start position, end position, */
+typedef vector<vector<int>> Memo;
+
 struct WinePrice {
 	
 	/*
 		price - list of price of wines,
 		start - start index for your wine price list
 		end - end index for your wine price list
+
+		Time : 2^n // where n = end-start+1
+		Space : O(m) // where m is the depth of recursion stack
 	*/
 	int maxPrice_brut(vector<int> price, int start, int end, int year) {
 		
@@ -61,6 +67,33 @@ struct WinePrice {
 
 		return max(incStart, incEnd);
 	}
+
+	/*
+	price - list of price of wines,
+	start - start index for your wine price list
+	end - end index for your wine price list
+	Time :  
+	Space : O(m) // where m is the depth of recursion stack
+*/
+	int maxPrice_memo(vector<int> price, int start, int end, int year, Memo &memo) {
+		// base condition
+		if (start > end) {
+			return 0;
+		}
+
+		// check does the earlier the same calculation done ?
+		if (memo[start][end] != 0) {
+			// for verification of hitiing or not?
+			cout << "You hit the rocket!!!" << endl;
+			return memo[start][end];
+		}
+
+		// suppose you picked from left
+		int incStart = year * price[start] + maxPrice_memo(price, start + 1, end, year + 1, memo);
+		int incEnd = year * price[end] + maxPrice_memo(price, start, end - 1, year + 1, memo);
+		memo[start][end] = max(incStart, incEnd);
+		return memo[start][end];
+	}
 };
 
 int main() {
@@ -71,12 +104,15 @@ int main() {
 	int year = 1;
 	WinePrice wp;
 #ifndef APP01
-	cout << wp.maxPrice_brut(price, start, end, year);
+	cout << wp.maxPrice_brut(price, start, end, year) << endl;
 	// completed
 #endif // APP01
+#ifndef APP02
+// // vector<vector<vector<int> > > vec (5,vector<vector<int> >(3,vector <int>(2,4)));
 
-
-
+	Memo memo(price.size(), vector<int>(price.size(), 0));
+	cout << wp.maxPrice_memo(price, start, end, year, memo);
+#endif // APP02
 
 	return 0;
 }
