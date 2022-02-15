@@ -32,7 +32,7 @@
 
 */
 
-//#define FORREF
+#define FORREF
 //#define APP01
 //#define APP02
 
@@ -41,8 +41,9 @@ using namespace std;
 #include<iostream>
 #include<vector>
 
-/* start position, end position, */
-typedef vector<vector<int>> Memo;
+// 03 dimension to handle this problem
+/* start position, end position, Year, */ 
+typedef vector<vector<vector<int>>> Memo;
 
 struct WinePrice {
 	
@@ -68,12 +69,12 @@ struct WinePrice {
 		return max(incStart, incEnd);
 	}
 
-	/*
+/*
 	price - list of price of wines,
 	start - start index for your wine price list
 	end - end index for your wine price list
-	Time :  
-	Space : O(m) // where m is the depth of recursion stack
+	Time :  O(n^3) // Exponential to degree of 3
+	Space : O(n^3) // in additional space also ( Some recursive stack space + memo table space )
 */
 	int maxPrice_memo(vector<int> price, int start, int end, int year, Memo &memo) {
 		// base condition
@@ -82,35 +83,62 @@ struct WinePrice {
 		}
 
 		// check does the earlier the same calculation done ?
-		if (memo[start][end] != 0) {
+		if (memo[start][end][year] != 0) {
 			// for verification of hitiing or not?
 			cout << "You hit the rocket!!!" << endl;
-			return memo[start][end];
+			return memo[start][end][year];
 		}
 
 		// suppose you picked from left
 		int incStart = year * price[start] + maxPrice_memo(price, start + 1, end, year + 1, memo);
 		int incEnd = year * price[end] + maxPrice_memo(price, start, end - 1, year + 1, memo);
+		memo[start][end][year] = max(incStart, incEnd);
+		return memo[start][end][year];
+	}
+
+/*
+	How to handle the tabulization dp for wine profit maximization problem??
+	TBD - Help???
+*/
+	int maxPrice_tabu(vector<int> price, int start, int end, int year) {
+		Memo memo(price.size(), vector<vector<int>>(price.size(), vector<int>(price.size(), INT_MIN)));
+		
+		for (int i = 0; i <= start; ++i) {
+			for (int j = 0; j < i; ++j) {
+				for (int y = 1; y <= price.size(); ++y) {
+					//memo[i][j][y] = y*max(memo[i][j][y], 0); - This is the exact calculation
+					memo[i][j][y] = 0; // but below code have also same impact but better optimization
+				}
+			}
+		}
+
+
+		// suppose you picked from left
+		int incStart = year * price[start] + maxPrice_tabu(price, start + 1, end, year + 1);
+		int incEnd = year * price[end] + maxPrice_tabu(price, start, end - 1, year + 1);
 		memo[start][end] = max(incStart, incEnd);
-		return memo[start][end];
+		return memo[start][end][year];
 	}
 };
 
 int main() {
 	//int price[] = { 2,3,5,1,4 };
+	
 	vector<int> price = { 2,3,5,1,4 };
 	int start = 0; // it's 0 because this is the year fromwhich you start selling
 	int end = price.size() - 1;
 	int year = 1;
+	
 	WinePrice wp;
+
 #ifndef APP01
 	cout << wp.maxPrice_brut(price, start, end, year) << endl;
 	// completed
 #endif // APP01
-#ifndef APP02
-// // vector<vector<vector<int> > > vec (5,vector<vector<int> >(3,vector <int>(2,4)));
 
-	Memo memo(price.size(), vector<int>(price.size(), 0));
+#ifndef APP02
+	Memo memo(price.size(), vector<vector<int>>(price.size(), vector<int>(1+price.size(), 0)));
+
 	cout << wp.maxPrice_memo(price, start, end, year, memo);
 #endif // APP02
 
