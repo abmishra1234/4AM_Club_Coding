@@ -7,9 +7,11 @@
 
     Note: For the given sequence BBABCBCAB, subsequence BBBBB and BBCBB are also palindromic subsequences, but these are not the longest.
 
+    TBD - Tabulization dp solution is pending here...
+
 */
 
-//#define FORREF
+#define FORREF
 
 #ifndef FORREF
 using namespace std;
@@ -27,11 +29,17 @@ struct LongestPalindromSubSeq
         Now my job is to make the noramal recursive solution to Memoization based solution
     */
     int subSeq(char seq[], int left, int right, Memo &memo) {
+        if (left > right) {
+            return 0;
+        }
+        // else is left <= right
+
+        // so first thing you have to check is that , does the calculation for sub range is already done?
         if (memo[left][right] != -1) {
             cout << "Yes, recursion call duplicate found!!!" << endl;
             return memo[left][right];
        }
-        else
+        else // if the sub range is not calculated earlier, and so do the required task
         {
             // this is when you have odd number character palindrom
             if (left == right) {
@@ -48,8 +56,8 @@ struct LongestPalindromSubSeq
             {
                 memo[left][right] = max(subSeq(seq, left + 1, right, memo), subSeq(seq, left, right - 1, memo));
             }
+            return memo[left][right];
         }
-        return memo[left][right];
     }
 };
 
