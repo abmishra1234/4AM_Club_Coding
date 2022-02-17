@@ -8,8 +8,8 @@
 	
 	Find r(n){total maximum revenue} for the rod of size n.
 
-	- Memoization : In Progress 
-	- Tabulization :  : Not started Yet
+	- Memoization : completed 
+	- Tabulization :  : Completed
 */
 
 #define FORREF
