@@ -19,12 +19,17 @@ using namespace std;
 #include<vector>
 #include<string>
 
+typedef vector<int> Memo;
+
+
 struct CuttingRod {
 
 	// price is the price list of cut, and n is the total length of rod
-	int cutRod(int price[], int n) {
-		// max revanue
-		int max_revanue = INT_MIN;
+	int cutRod(int price[], int n, Memo &memo) {
+		if (memo[n] != -1) {
+			cout << "hit the bull!!" << endl;
+			return memo[n];
+		}
 		
 		if (n <= 0) {
 			return 0;
@@ -32,9 +37,9 @@ struct CuttingRod {
 		else
 		{
 			for (int i = 1; i <= n; ++i)
-				max_revanue = max(max_revanue, price[i] + cutRod(price, n-i));
+				memo[n] = max(memo[n], price[i] + cutRod(price, n-i, memo));
 		}
-		return max_revanue;
+		return memo[n];
 	}
 };
 
@@ -47,7 +52,8 @@ int main() {
 	*/
 	int price[] = { 0, 2,5,8,9,10,11 };
 	CuttingRod cr;
-	int answer = cr.cutRod(price, n);
+	Memo memo(n + 1, -1);
+	int answer = cr.cutRod(price, n, memo);
 	cout << "Your maximum revanue from length n = " << n << " , after cutting is : " << answer << endl;
 }
 
