@@ -1,21 +1,15 @@
 /*
-	TBD --- Not complete yet
 	LIS ( Longest Increasing Sequence)
-	
 	Status:
 	Recursion Approach :  In progres
-	Recursion with Memoization : TBD
-	Solution with Tabulation : TBD
+	Recursion with Memoization : Completed
+	Solution with Tabulation : Completed
 
 	LIS
 	- length of the Lomgest Increasing Sequence
-	- LIS sequence also
-
-
-
 */
 
-//#define FORREF
+#define FORREF
 
 #ifndef FORREF
 using namespace std;
@@ -100,14 +94,7 @@ struct LIS {
 			}
 			return dp[n];
 		}
-
-
 };
-
-
-
-
-
 
 // driver code  
 int main() {
