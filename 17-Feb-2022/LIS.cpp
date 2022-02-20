@@ -84,6 +84,24 @@ struct LIS {
 		return memo[n];
 	}
 
+		int solve_tabu(int arr[], int n) {
+			Memo dp(n + 1, INT_MIN);
+
+			// @note nth number and start from 1
+			// so to convert into the index you just decrease by 1
+			dp[0] = 0;
+			dp[1] = 1;
+			
+			for (int i = 2; i <= n; ++i) {
+				if (arr[i - 2] < arr[i - 1]) {
+					dp[i] = 1 + dp[i-1];
+				}
+				dp[i] = max(dp[i], max(1, dp[i - 1]));
+			}
+			return dp[n];
+		}
+
+
 };
 
 
@@ -103,7 +121,7 @@ int main() {
 	cout << lis.solve_rec(arr, n) << endl;
 	Memo memo(n + 1, INT_MIN);
 	cout << "Memo = " << lis.solve_memo(arr, n, memo) << endl;
-
+	cout << "Tabu = " << lis.solve_tabu(arr, n) << endl;
 
 	return 0;
 }
